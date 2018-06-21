@@ -1,4 +1,4 @@
-// Require third-party dependencies
+// Require Third-party dependencies
 const is = require("@sindresorhus/is");
 const cloneDeep = require("lodash.clonedeep");
 
@@ -12,13 +12,24 @@ const cloneDeep = require("lodash.clonedeep");
  * @property {Boolean} executeOnStart
  * @property {Date} timer
  * @property {Date} startDate
+ *
+ * @author GENTILHOMME Thomas
  */
 class CallbackScheduler {
 
     /**
      * @constructor
      * @param {Object} [options={}] Scheduler Options
+     * @param {Number} [options.interval=36000] Scheduler interval in milliseconds
+     * @param {Date} options.startDate Scheduler start date (default equal to now())
+     * @param {Boolean} [options.executeOnStart=false] Enable walk on the first run
+     *
      * @throws {TypeError}
+     *
+     * @example
+     * const Schedule = new Scheduler({
+     *     interval: 1000
+     * });
      */
     constructor(options = CallbackScheduler.DefaultConstructorOptions) {
         const args = Object.assign(cloneDeep(CallbackScheduler.DefaultConstructorOptions), options);
@@ -32,6 +43,7 @@ class CallbackScheduler {
             throw new TypeError("CallbackScheduler.options.executeOnStart should be a <boolean>");
         }
 
+        // Setup class properties
         this.interval = args.interval;
         this.startDate = args.startDate;
         this.executeOnStart = args.executeOnStart;
@@ -43,13 +55,17 @@ class CallbackScheduler {
     /**
      * @public
      * @method reset
-     * @desc Reset scheduler to delta 0
+     * @desc Reset scheduler to delta 0 (automatically called if walk match)
      * @memberof CallbackScheduler#
-     * @returns {void}
+     * @returns {Boolean}
+     *
+     * @version 0.0.0
      */
     reset() {
         this.timer = new Date();
         this.timer.setSeconds(this.timer.getSeconds() + this.interval);
+
+        return true;
     }
 
     /**
@@ -58,6 +74,20 @@ class CallbackScheduler {
      * @desc Increment the schedule (timer). It's what we call a 'walk'
      * @memberof CallbackScheduler#
      * @returns {Boolean}
+     *
+     * @version 0.0.0
+     *
+     * @example
+     * const Schedule = new Scheduler({
+     *     interval: 1000
+     * });
+     *
+     * setInterval(() => {
+     *     if (!Schedule.walk()) {
+     *         return;
+     *     }
+     *     console.log("One second elapsed!");
+     * }, 100);
      */
     walk() {
         if (this.started === false) {
@@ -66,22 +96,20 @@ class CallbackScheduler {
             return this.executeOnStart;
         }
 
-        // Init timer!
+        // Initialize timer!
         if (this.initialized === false) {
-            this.reset();
             this.initialized = true;
+            this.reset();
         }
 
-        if (this.startDate > new Date()) {
+        // Check if the time is elapsed (if not return false)
+        const now = new Date();
+        if (this.startDate > now || this.timer > now) {
             return false;
         }
 
-        if (this.timer > new Date()) {
-            return false;
-        }
-        this.reset();
-
-        return true;
+        // Return reset Scheduler (true)
+        return this.reset();
     }
 
 }
