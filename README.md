@@ -29,7 +29,7 @@ async function sayHello() {
 // Register "sayHello" and ask it to be executed every 1,000ms
 myAddon
     .registerCallback(sayHello)
-    .schedule("sayHello", new Scheduler({ interval: 1000 }));
+    .schedule("sayHello", new Scheduler({ interval: 1 }));
 
 module.exports = myAddon;
 ```

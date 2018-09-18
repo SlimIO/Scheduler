@@ -20,7 +20,7 @@ class CallbackScheduler {
     /**
      * @constructor
      * @param {Object} [options={}] Scheduler Options
-     * @param {Number} [options.interval=36000] Scheduler interval in milliseconds
+     * @param {Number} [options.interval=36000] Scheduler interval in second!
      * @param {Date} options.startDate Scheduler start date (default equal to now())
      * @param {Boolean} [options.executeOnStart=false] Enable walk on the first run
      *
@@ -79,7 +79,7 @@ class CallbackScheduler {
      *
      * @example
      * const Schedule = new Scheduler({
-     *     interval: 1000
+     *     interval: 1
      * });
      *
      * setInterval(() => {
