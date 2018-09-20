@@ -1,8 +1,11 @@
 /* eslint no-new: off */
 
-// Require dependencies
+// Require Third-party Dependencies
 const avaTest = require("ava");
 const is = require("@sindresorhus/is");
+const { setDriftlessTimeout } = require("driftless");
+
+// Require Internal Dependencies
 const CallbackScheduler = require("../index");
 
 /**
@@ -10,7 +13,6 @@ const CallbackScheduler = require("../index");
  */
 avaTest("CallbackScheduler - default static constructor options values", (test) => {
     test.is(CallbackScheduler.DefaultConstructorOptions.interval, 36000);
-    test.is(is.date(CallbackScheduler.DefaultConstructorOptions.startDate), true);
     test.is(CallbackScheduler.DefaultConstructorOptions.executeOnStart, false);
 });
 
@@ -26,14 +28,6 @@ avaTest("CallbackScheduler - constructor throw", (test) => {
         });
     }, TypeError);
     test.is(intervalError.message, "CallbackScheduler.options.interval should be typeof <number>");
-
-    // Test startDate argument
-    const dateError = test.throws(() => {
-        new CallbackScheduler({
-            startDate: 500
-        });
-    }, TypeError);
-    test.is(dateError.message, "CallbackScheduler.options.startDate should be a <Date> Object");
 
     // Test executeOnStart argument
     const executeOnStartError = test.throws(() => {
@@ -55,8 +49,7 @@ avaTest("CallbackScheduler - default constructor values", (test) => {
     test.is(Scheduler.interval, CallbackScheduler.DefaultConstructorOptions.interval);
     test.is(Scheduler.executeOnStart, CallbackScheduler.DefaultConstructorOptions.executeOnStart);
     test.is(Scheduler.started, false);
-    test.is(Scheduler.initialized, false);
-    test.is(is.date(Scheduler.startDate), true);
+    test.is(is.number(Scheduler.startDate), true);
 });
 
 /**
@@ -67,7 +60,7 @@ avaTest("CallbackScheduler - execute reset method", (test) => {
     test.is(is.nullOrUndefined(Scheduler.timer), true);
     Scheduler.reset();
     test.is(is.nullOrUndefined(Scheduler.timer), false);
-    test.is(is.date(Scheduler.timer), true);
+    test.is(is.number(Scheduler.timer), true);
 });
 
 /**
@@ -83,22 +76,28 @@ avaTest("CallbackScheduler - execute walk method (first test)", async(test) => {
     test.is(Scheduler.started, true);
 
     const ret = Scheduler.walk();
-    test.is(is.date(Scheduler.timer), true);
-    test.is(Scheduler.initialized, true);
+    test.is(is.number(Scheduler.timer), true);
     test.is(ret, false);
 
     await new Promise((resolve) => {
-        setTimeout(() => {
+        setDriftlessTimeout(() => {
+            test.is(Scheduler.walk(), false);
+            resolve();
+        }, 500);
+    });
+
+    await new Promise((resolve) => {
+        setDriftlessTimeout(() => {
             test.is(Scheduler.walk(), true);
             resolve();
-        }, 1000);
+        }, 500);
     });
 });
 
 
-/**
- * Test CallbackScheduler - execute walk method (second test)
- */
+// /**
+//  * Test CallbackScheduler - execute walk method (second test)
+//  */
 avaTest("CallbackScheduler - execute walk method (second test)", async(test) => {
     const Scheduler = new CallbackScheduler({
         executeOnStart: true,
@@ -110,10 +109,17 @@ avaTest("CallbackScheduler - execute walk method (second test)", async(test) => 
     test.is(Scheduler.started, true);
 
     await new Promise((resolve) => {
-        setTimeout(() => {
+        setDriftlessTimeout(() => {
             test.is(Scheduler.walk(), false);
             resolve();
-        }, 1000);
+        }, 1500);
+    });
+
+    await new Promise((resolve) => {
+        setDriftlessTimeout(() => {
+            test.is(Scheduler.walk(), true);
+            resolve();
+        }, 500);
     });
 });
 
@@ -121,10 +127,10 @@ avaTest("CallbackScheduler - execute walk method (second test)", async(test) => 
  * Test CallbackScheduler - execute walk method with startDate
  */
 avaTest("CallbackScheduler - execute walk method with startDate", async(test) => {
-    const deltaDate = new Date();
-    deltaDate.setSeconds(deltaDate.getSeconds() + 3);
+    const startDate = new Date();
+    startDate.setSeconds(startDate.getSeconds() + 3);
     const Scheduler = new CallbackScheduler({
-        startDate: deltaDate,
+        startDate,
         interval: 1
     });
     test.is(is.nullOrUndefined(Scheduler.timer), true);
@@ -133,16 +139,52 @@ avaTest("CallbackScheduler - execute walk method with startDate", async(test) =>
     test.is(Scheduler.started, true);
 
     await new Promise((resolve) => {
-        setTimeout(() => {
+        setDriftlessTimeout(() => {
             test.is(Scheduler.walk(), false);
             resolve();
         }, 1000);
     });
     await new Promise((resolve) => {
-        setTimeout(() => {
+        setDriftlessTimeout(() => {
             test.is(Scheduler.walk(), true);
             resolve();
         }, 3000);
     });
 });
 
+/**
+ * Test CallbackScheduler - execute walk method (second test)
+ */
+avaTest("CallbackScheduler - execute walk method in milliseconds", async(test) => {
+    const Scheduler = new CallbackScheduler({
+        executeOnStart: true,
+        startDate: void 0,
+        interval: 200,
+        defaultType: CallbackScheduler.Types.Milliseconds
+    });
+
+    // Check type error
+    const typeError = test.throws(() => {
+        Scheduler.type = "mdr";
+    }, TypeError);
+    test.is(typeError.message, "Unknown TYPE value mdr !");
+
+    test.is(is.nullOrUndefined(Scheduler.timer), true);
+    test.is(Scheduler.started, false);
+    test.is(Scheduler.walk(), true);
+    test.is(Scheduler.started, true);
+
+    await new Promise((resolve) => {
+        setDriftlessTimeout(() => {
+            test.is(Scheduler.walk(), false);
+            resolve();
+        }, 100);
+    });
+
+    await new Promise((resolve) => {
+        setDriftlessTimeout(() => {
+            test.is(Scheduler.walk(), true);
+            resolve();
+        }, 200);
+    });
+});

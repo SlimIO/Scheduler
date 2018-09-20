@@ -5,13 +5,15 @@ declare class CallbackScheduler {
     // Constructor
     constructor(options?: CallbackScheduler.ConstructorOptions);
 
+    static Types: CallbackScheduler.AvailableTypes;
+
     // Properties
 	public interval: number;
 	public started: boolean;
-	public initialized: boolean;
+	public hasBeenResetAfterStartDate: boolean;
 	public executeOnStart: boolean;
-	public timer: Date;
-	public startDate: Date;
+	public timer: number;
+	public startDate: number;
 
 
     // Static properties
@@ -31,7 +33,13 @@ declare namespace CallbackScheduler {
     interface ConstructorOptions {
 		interval?: number;
 		startDate?: date;
-		executeOnStart?: boolean;
+        executeOnStart?: boolean;
+        defaultType?: keyof AvailableTypes;
+    }
+
+    interface AvailableTypes {
+        Milliseconds: "millisecond",
+        Seconds: "second"
     }
 
 }

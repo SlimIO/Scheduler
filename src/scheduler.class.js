@@ -2,16 +2,23 @@
 const is = require("@sindresorhus/is");
 const cloneDeep = require("lodash.clonedeep");
 
+// CONSTANTS & SYMBOLS
+const TYPE = Symbol("TYPE");
+const AVAILABLE_TYPES = new Map([
+    ["millisecond", 0],
+    ["second", 1]
+]);
+
 /**
  * @class CallbackScheduler
  * @classdesc Used to schedule callback(s) execution in Addon
  *
  * @property {Number} interval
  * @property {Boolean} started
- * @property {Boolean} initialized
  * @property {Boolean} executeOnStart
- * @property {Date} timer
- * @property {Date} startDate
+ * @property {Boolean} hasBeenResetAfterStartDate
+ * @property {Number} timer
+ * @property {Number} startDate
  *
  * @author GENTILHOMME Thomas
  */
@@ -23,6 +30,7 @@ class CallbackScheduler {
      * @param {Number} [options.interval=36000] Scheduler interval in second!
      * @param {Date} options.startDate Scheduler start date (default equal to now())
      * @param {Boolean} [options.executeOnStart=false] Enable walk on the first run
+     * @param {String} [options.defaultType="second"] Default Scheduler Type
      *
      * @throws {TypeError}
      *
@@ -36,20 +44,37 @@ class CallbackScheduler {
         if (!is.number(args.interval)) {
             throw new TypeError("CallbackScheduler.options.interval should be typeof <number>");
         }
-        if (!is.date(args.startDate)) {
-            throw new TypeError("CallbackScheduler.options.startDate should be a <Date> Object");
-        }
         if (!is.boolean(args.executeOnStart)) {
             throw new TypeError("CallbackScheduler.options.executeOnStart should be a <boolean>");
         }
 
         // Setup class properties
         this.interval = args.interval;
-        this.startDate = args.startDate;
+        if (is.date(args.startDate)) {
+            this.startDate = args.startDate.getTime();
+            this.hasBeenResetAfterStartDate = false;
+        }
+        else {
+            this.startDate = Date.now();
+            this.hasBeenResetAfterStartDate = true;
+        }
         this.executeOnStart = args.executeOnStart;
         this.started = false;
-        this.initialized = false;
         this.timer = null;
+        this.type = args.defaultType;
+    }
+
+    /**
+     * @public
+     * @memberof CallbackScheduler#
+     * @param {!String} value value
+     * @return {void}
+     */
+    set type(value) {
+        if (!AVAILABLE_TYPES.has(value)) {
+            throw new TypeError(`Unknown TYPE value ${value} !`);
+        }
+        this[TYPE] = AVAILABLE_TYPES.get(value);
     }
 
     /**
@@ -57,15 +82,19 @@ class CallbackScheduler {
      * @method reset
      * @desc Reset scheduler to delta 0 (automatically called if walk match)
      * @memberof CallbackScheduler#
-     * @returns {Boolean}
+     * @returns {void}
      *
      * @version 0.0.0
      */
     reset() {
-        this.timer = new Date();
-        this.timer.setSeconds(this.timer.getSeconds() + this.interval);
-
-        return true;
+        const date = new Date();
+        if (this[TYPE] === 0) {
+            date.setMilliseconds(date.getMilliseconds() + this.interval);
+        }
+        else {
+            date.setSeconds(date.getSeconds() + this.interval);
+        }
+        this.timer = date.getTime();
     }
 
     /**
@@ -90,29 +119,50 @@ class CallbackScheduler {
      * }, 100);
      */
     walk() {
-        if (this.started === false) {
+        const now = Date.now();
+        if (!this.started) {
             this.started = true;
+            this.reset();
 
             return this.executeOnStart;
         }
 
-        // Initialize timer!
-        if (this.initialized === false) {
-            this.initialized = true;
+        // Check if the time is elapsed (if not return false)
+        if (this.startDate > now) {
+            return false;
+        }
+        else if (!this.hasBeenResetAfterStartDate) {
+            this.hasBeenResetAfterStartDate = true;
             this.reset();
+
+            return true;
         }
 
-        // Check if the time is elapsed (if not return false)
-        const now = new Date();
-        if (this.startDate > now || this.timer > now) {
+        if (this.timer > now) {
             return false;
         }
 
-        // Return reset Scheduler (true)
-        return this.reset();
+        // Execute reset at the next iteration!
+        setImmediate(() => {
+            this.reset();
+        });
+
+        return true;
     }
 
 }
+
+/**
+ * @static
+ * @memberof CallbackScheduler#Types
+ * @desc Available types
+ * @property {Number} Milliseconds
+ * @property {Number} Seconds
+ */
+CallbackScheduler.Types = {
+    Milliseconds: "millisecond",
+    Seconds: "second"
+};
 
 /**
  * @static
@@ -121,16 +171,12 @@ class CallbackScheduler {
  * @property {Number} interval
  * @property {Date} startDate
  * @property {Boolean} executeOnStart
+ * @property {String} defaultType
  */
 CallbackScheduler.DefaultConstructorOptions = {
     interval: 36000,
-    startDate: (function defaultDate() {
-        const date = new Date();
-        date.setHours(0, 0, 0, 0);
-
-        return date;
-    })(),
-    executeOnStart: false
+    executeOnStart: false,
+    defaultType: CallbackScheduler.Types.Seconds
 };
 
 // Export class
