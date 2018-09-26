@@ -1,6 +1,9 @@
 tests
+tests
 coverage
 docs
+jsdoc.json
+CONTRIBUTING.md
 .editorconfig
 .eslintrc
 .nyc_output
