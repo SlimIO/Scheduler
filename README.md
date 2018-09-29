@@ -37,43 +37,53 @@ module.exports = myAddon;
 ## API
 
 ### constructor(options?: CallbackScheduler.ConstructorOptions)
-Construct a new Scheduler. Available options are the following:
+Construct a new Scheduler.
+
+```js
+const myScheduler = new Scheduler({
+    interval: 1250,
+    intervalUnitType: Scheduler.AvailableTypes.milliseconds
+});
+```
+
+Available options are the following:
+
+| argument name | type | default value | description |
+| --- | --- | --- | --- |
+| interval | number | 36000 | Default timer interval (in second if defaultType is not set) |
+| startDate | date | Date.now() | The start date of the timer, dont set the property if you want the timer to start immediately |
+| executeOnStart | boolean | false | The timer will return **true** on the very first walk() if this option is true |
+| intervalUnitType | AvailableTypes | AvailableTypes.seconds | Set the type of the interval |
+
+Available types are:
 
 ```ts
-interface ConstructorOptions {
-    interval?: number;
-    startDate?: date;
-    executeOnStart?: boolean;
-    defaultType?: keyof AvailableTypes;
+interface AvailableTypes {
+    Milliseconds: "millisecond",
+    Seconds: "second"
 }
 ```
 
-Default values are
-```js
-{
-    interval: 36000,
-    executeOnStart: false,
-    defaultType: "second"
-};
-```
+### reset(): void
+Reset the Scheduler (it will reset inner date timer). This method is automatically called by the `walk()` method.
 
-If `startDate` is undefined, the default value with be the result of `Date.now()` (So startDate will not be checked by the walk method).
-
-### reset()
-Reset the Scheduler (it will reset inner date timer). This method is called dynamically by walk().
-
-### walk()
+### walk(): boolean
 Walk the Scheduler. It will return `false` if the time is not elapsed and `true` if the time has been elapsed. When true is returned, the timer is automatically resetted !
 
-### type
+<p align="center">
+    <img src="https://i.imgur.com/vnbqS3e.png" height="500">
+</p>
+
+### Available Types
 Scheduler support both `second` and `millisecond` types. It's recommanded to set these at the construction time.
 
 ```js
 const timer = new Scheduler({
     interval: 500, // Ms
-    defaultType: Scheduler.Types.Milliseconds
+    intervalUnitType: Scheduler.Types.Milliseconds
 });
 
-// Change type with the getter
+// [OR] Change type with the getter
+// But that can be dangerous to change the nature of an existant timer
 timer.type = Scheduler.Types.Seconds;
 ```
