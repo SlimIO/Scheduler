@@ -160,7 +160,7 @@ avaTest("CallbackScheduler - execute walk method in milliseconds", async(test) =
         executeOnStart: true,
         startDate: void 0,
         interval: 200,
-        defaultType: CallbackScheduler.Types.Milliseconds
+        intervalUnitType: CallbackScheduler.Types.Milliseconds
     });
 
     // Check type error

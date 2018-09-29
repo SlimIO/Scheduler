@@ -19,6 +19,7 @@ const AVAILABLE_TYPES = new Map([
  * @property {Boolean} hasBeenResetAfterStartDate
  * @property {Number} timer
  * @property {Number} startDate
+ * @property {String} type
  *
  * @author GENTILHOMME Thomas
  */
@@ -30,7 +31,7 @@ class CallbackScheduler {
      * @param {Number} [options.interval=36000] Scheduler interval in second!
      * @param {Date} options.startDate Scheduler start date (default equal to now())
      * @param {Boolean} [options.executeOnStart=false] Enable walk on the first run
-     * @param {String} [options.defaultType="second"] Default Scheduler Type
+     * @param {String} [options.intervalUnitType="second"] Default Scheduler Type
      *
      * @throws {TypeError}
      *
@@ -47,6 +48,9 @@ class CallbackScheduler {
         if (!is.boolean(args.executeOnStart)) {
             throw new TypeError("CallbackScheduler.options.executeOnStart should be a <boolean>");
         }
+        if (!is.string(args.intervalUnitType)) {
+            throw new TypeError("CallbackScheduler.options.intervalUnitType should be typeof <string>");
+        }
 
         // Setup class properties
         this.interval = args.interval;
@@ -61,7 +65,7 @@ class CallbackScheduler {
         this.executeOnStart = args.executeOnStart;
         this.started = false;
         this.timer = null;
-        this.type = args.defaultType;
+        this.type = args.intervalUnitType;
     }
 
     /**
@@ -176,7 +180,7 @@ CallbackScheduler.Types = {
 CallbackScheduler.DefaultConstructorOptions = {
     interval: 36000,
     executeOnStart: false,
-    defaultType: CallbackScheduler.Types.Seconds
+    intervalUnitType: CallbackScheduler.Types.Seconds
 };
 
 // Export class
