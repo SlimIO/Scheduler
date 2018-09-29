@@ -42,7 +42,7 @@ Construct a new Scheduler.
 ```js
 const myScheduler = new Scheduler({
     interval: 1250,
-    intervalUnitType: Scheduler.AvailableTypes.milliseconds
+    intervalUnitType: Scheduler.Types.milliseconds
 });
 ```
 
@@ -53,7 +53,7 @@ Available options are the following:
 | interval | number | 36000 | Default timer interval (in second if defaultType is not set) |
 | startDate | date | Date.now() | The start date of the timer, dont set the property if you want the timer to start immediately |
 | executeOnStart | boolean | false | The timer will return **true** on the very first walk() if this option is true |
-| intervalUnitType | AvailableTypes | AvailableTypes.seconds | Set the type of the interval |
+| intervalUnitType | AvailableTypes | Types.seconds | Set the type of the interval |
 
 Available types are:
 

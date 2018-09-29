@@ -5,8 +5,6 @@ declare class CallbackScheduler {
     // Constructor
     constructor(options?: CallbackScheduler.ConstructorOptions);
 
-    static Types: CallbackScheduler.AvailableTypes;
-
     // Properties
 	public interval: number;
 	public started: boolean;
@@ -17,6 +15,7 @@ declare class CallbackScheduler {
     public type: keyof AvailableTypes;
 
     // Static properties
+    static Types: CallbackScheduler.AvailableTypes;
     static DefaultConstructorOptions: CallbackScheduler.ConstructorOptions;
 
     // Methods

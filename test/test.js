@@ -14,6 +14,7 @@ const CallbackScheduler = require("../index");
 avaTest("CallbackScheduler - default static constructor options values", (test) => {
     test.is(CallbackScheduler.DefaultConstructorOptions.interval, 36000);
     test.is(CallbackScheduler.DefaultConstructorOptions.executeOnStart, false);
+    test.is(CallbackScheduler.DefaultConstructorOptions.intervalUnitType, CallbackScheduler.Types.Seconds);
 });
 
 /**
@@ -38,6 +39,17 @@ avaTest("CallbackScheduler - constructor throw", (test) => {
     test.is(
         executeOnStartError.message,
         "CallbackScheduler.options.executeOnStart should be a <boolean>"
+    );
+
+    // Test executeOnStart argument
+    const intervalUnitTypeError = test.throws(() => {
+        new CallbackScheduler({
+            intervalUnitType: 5
+        });
+    }, TypeError);
+    test.is(
+        intervalUnitTypeError.message,
+        "CallbackScheduler.options.intervalUnitType should be typeof <string>"
     );
 });
 
