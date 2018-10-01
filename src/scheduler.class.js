@@ -1,5 +1,4 @@
 // Require Third-party dependencies
-const is = require("@sindresorhus/is");
 const cloneDeep = require("lodash.clonedeep");
 
 // CONSTANTS & SYMBOLS
@@ -42,19 +41,19 @@ class CallbackScheduler {
      */
     constructor(options = CallbackScheduler.DefaultConstructorOptions) {
         const args = Object.assign(cloneDeep(CallbackScheduler.DefaultConstructorOptions), options);
-        if (!is.number(args.interval)) {
+        if (typeof args.interval !== "number") {
             throw new TypeError("CallbackScheduler.options.interval should be typeof <number>");
         }
-        if (!is.boolean(args.executeOnStart)) {
+        if (typeof args.executeOnStart !== "boolean") {
             throw new TypeError("CallbackScheduler.options.executeOnStart should be a <boolean>");
         }
-        if (!is.string(args.intervalUnitType)) {
+        if (typeof args.intervalUnitType !== "string") {
             throw new TypeError("CallbackScheduler.options.intervalUnitType should be typeof <string>");
         }
 
         // Setup class properties
         this.interval = args.interval;
-        if (is.date(args.startDate)) {
+        if (args.startDate instanceof Date) {
             this.startDate = args.startDate.getTime();
             this.hasBeenResetAfterStartDate = false;
         }
