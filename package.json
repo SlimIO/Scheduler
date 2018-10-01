@@ -4,7 +4,7 @@
   "description": "Slim.IO - Addon callbacks scheduler",
   "main": "index.js",
   "engines": {
-      "node": ">=10"
+    "node": ">=10"
   },
   "scripts": {
     "test": "npx ava --verbose",
@@ -32,11 +32,11 @@
   },
   "devDependencies": {
     "@escommunity/minami": "^1.0.0",
-    "@slimio/eslint-config": "^1.1.7",
+    "@slimio/eslint-config": "^1.1.8",
     "@slimio/is": "^1.1.0",
     "ava": "^0.25.0",
     "driftless": "^2.0.3",
-    "eslint": "^5.6.0",
+    "eslint": "^5.6.1",
     "jsdoc": "^3.5.5",
     "nyc": "^13.0.1"
   }
