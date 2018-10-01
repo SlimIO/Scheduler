@@ -2,142 +2,102 @@
 
 // Require Third-party Dependencies
 const avaTest = require("ava");
-const is = require("@sindresorhus/is");
+const is = require("@slimio/is");
 const { setDriftlessTimeout } = require("driftless");
 
 // Require Internal Dependencies
 const CallbackScheduler = require("../index");
 
 /**
- * Test CallbackScheduler static default constructor options
+ * @function sleep
+ * @desc Sleep the async code execution by awaiting the timeOut
+ * @param {!Number} [ms=1000] millisecond
+ * @return {Promise<void>}
  */
+function sleep(ms = 1000) {
+    return new Promise((resolve) => setDriftlessTimeout(resolve, ms));
+}
+
 avaTest("CallbackScheduler - default static constructor options values", (test) => {
     test.is(CallbackScheduler.DefaultConstructorOptions.interval, 36000);
-    test.is(CallbackScheduler.DefaultConstructorOptions.executeOnStart, false);
+    test.false(CallbackScheduler.DefaultConstructorOptions.executeOnStart);
     test.is(CallbackScheduler.DefaultConstructorOptions.intervalUnitType, CallbackScheduler.Types.Seconds);
 });
 
-/**
- * Test CallbackScheduler - constructor options type (and error that throw)
- */
-avaTest("CallbackScheduler - constructor throw", (test) => {
-
-    // Test interval argument
-    const intervalError = test.throws(() => {
-        new CallbackScheduler({
-            interval: "5"
-        });
+avaTest("CallbackScheduler - constructor.options.interval should be typeof <number>", (test) => {
+    const error = test.throws(() => {
+        new CallbackScheduler({ interval: "5" });
     }, TypeError);
-    test.is(intervalError.message, "CallbackScheduler.options.interval should be typeof <number>");
-
-    // Test executeOnStart argument
-    const executeOnStartError = test.throws(() => {
-        new CallbackScheduler({
-            executeOnStart: 50
-        });
-    }, TypeError);
-    test.is(
-        executeOnStartError.message,
-        "CallbackScheduler.options.executeOnStart should be a <boolean>"
-    );
-
-    // Test executeOnStart argument
-    const intervalUnitTypeError = test.throws(() => {
-        new CallbackScheduler({
-            intervalUnitType: 5
-        });
-    }, TypeError);
-    test.is(
-        intervalUnitTypeError.message,
-        "CallbackScheduler.options.intervalUnitType should be typeof <string>"
-    );
+    test.is(error.message, "CallbackScheduler.options.interval should be typeof <number>");
 });
 
-/**
- * Test CallbackScheduler - default constructor values
- */
+avaTest("CallbackScheduler - constructor.options.executeOnStart should be a <boolean>", (test) => {
+    const error = test.throws(() => {
+        new CallbackScheduler({ executeOnStart: 50 });
+    }, TypeError);
+    test.is(error.message, "CallbackScheduler.options.executeOnStart should be a <boolean>");
+});
+
+avaTest("CallbackScheduler - constructor.intervalUnitType should be typeof <string>", (test) => {
+    const error = test.throws(() => {
+        new CallbackScheduler({ intervalUnitType: 5 });
+    }, TypeError);
+    test.is(error.message, "CallbackScheduler.options.intervalUnitType should be typeof <string>");
+});
+
 avaTest("CallbackScheduler - default constructor values", (test) => {
     const Scheduler = new CallbackScheduler();
     test.is(Scheduler.interval, CallbackScheduler.DefaultConstructorOptions.interval);
     test.is(Scheduler.executeOnStart, CallbackScheduler.DefaultConstructorOptions.executeOnStart);
-    test.is(Scheduler.started, false);
-    test.is(is.number(Scheduler.startDate), true);
+    test.false(Scheduler.started);
+    test.true(is.number(Scheduler.startDate));
 });
 
-/**
- * Test CallbackScheduler - execute reset method
- */
 avaTest("CallbackScheduler - execute reset method", (test) => {
     const Scheduler = new CallbackScheduler();
-    test.is(is.nullOrUndefined(Scheduler.timer), true);
+    test.true(is.nullOrUndefined(Scheduler.timer));
     Scheduler.reset();
-    test.is(is.nullOrUndefined(Scheduler.timer), false);
-    test.is(is.number(Scheduler.timer), true);
+    test.false(is.nullOrUndefined(Scheduler.timer));
+    test.true(is.number(Scheduler.timer));
 });
 
-/**
- * Test CallbackScheduler - execute walk method (first test)
- */
 avaTest("CallbackScheduler - execute walk method (first test)", async(test) => {
     const Scheduler = new CallbackScheduler({
         interval: 1
     });
-    test.is(is.nullOrUndefined(Scheduler.timer), true);
-    test.is(Scheduler.started, false);
-    test.is(Scheduler.walk(), false);
-    test.is(Scheduler.started, true);
+    test.true(is.nullOrUndefined(Scheduler.timer));
+    test.false(Scheduler.started);
+    test.false(Scheduler.walk());
+    test.true(Scheduler.started);
 
     const ret = Scheduler.walk();
-    test.is(is.number(Scheduler.timer), true);
-    test.is(ret, false);
+    test.true(is.number(Scheduler.timer));
+    test.false(ret);
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), false);
-            resolve();
-        }, 500);
-    });
+    await sleep(500);
+    test.false(Scheduler.walk());
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), true);
-            resolve();
-        }, 500);
-    });
+    await sleep(500);
+    test.true(Scheduler.walk());
 });
 
-
-// /**
-//  * Test CallbackScheduler - execute walk method (second test)
-//  */
 avaTest("CallbackScheduler - execute walk method (second test)", async(test) => {
     const Scheduler = new CallbackScheduler({
         executeOnStart: true,
         interval: 2
     });
-    test.is(is.nullOrUndefined(Scheduler.timer), true);
-    test.is(Scheduler.started, false);
-    test.is(Scheduler.walk(), true);
-    test.is(Scheduler.started, true);
+    test.true(is.nullOrUndefined(Scheduler.timer));
+    test.false(Scheduler.started);
+    test.true(Scheduler.walk());
+    test.true(Scheduler.started);
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), false);
-            resolve();
-        }, 1500);
-    });
+    await sleep(1500);
+    test.false(Scheduler.walk());
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), true);
-            resolve();
-        }, 500);
-    });
+    await sleep(500);
+    test.true(Scheduler.walk());
 });
 
-/**
- * Test CallbackScheduler - execute walk method with startDate
- */
 avaTest("CallbackScheduler - execute walk method with startDate", async(test) => {
     const startDate = new Date();
     startDate.setSeconds(startDate.getSeconds() + 3);
@@ -145,28 +105,18 @@ avaTest("CallbackScheduler - execute walk method with startDate", async(test) =>
         startDate,
         interval: 1
     });
-    test.is(is.nullOrUndefined(Scheduler.timer), true);
-    test.is(Scheduler.started, false);
-    test.is(Scheduler.walk(), false);
-    test.is(Scheduler.started, true);
+    test.true(is.nullOrUndefined(Scheduler.timer));
+    test.false(Scheduler.started);
+    test.false(Scheduler.walk());
+    test.true(Scheduler.started);
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), false);
-            resolve();
-        }, 1000);
-    });
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), true);
-            resolve();
-        }, 3000);
-    });
+    await sleep(1000);
+    test.false(Scheduler.walk());
+
+    await sleep(3000);
+    test.true(Scheduler.walk());
 });
 
-/**
- * Test CallbackScheduler - execute walk method (second test)
- */
 avaTest("CallbackScheduler - execute walk method in milliseconds", async(test) => {
     const Scheduler = new CallbackScheduler({
         executeOnStart: true,
@@ -181,22 +131,14 @@ avaTest("CallbackScheduler - execute walk method in milliseconds", async(test) =
     }, TypeError);
     test.is(typeError.message, "Unknown TYPE value mdr !");
 
-    test.is(is.nullOrUndefined(Scheduler.timer), true);
-    test.is(Scheduler.started, false);
-    test.is(Scheduler.walk(), true);
-    test.is(Scheduler.started, true);
+    test.true(is.nullOrUndefined(Scheduler.timer));
+    test.false(Scheduler.started);
+    test.true(Scheduler.walk());
+    test.true(Scheduler.started);
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), false);
-            resolve();
-        }, 100);
-    });
+    await sleep(100);
+    test.false(Scheduler.walk());
 
-    await new Promise((resolve) => {
-        setDriftlessTimeout(() => {
-            test.is(Scheduler.walk(), true);
-            resolve();
-        }, 200);
-    });
+    await sleep(200);
+    test.true(Scheduler.walk());
 });
