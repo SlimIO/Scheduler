@@ -5,10 +5,12 @@ Slim.IO Scheduler
 
 ## Getting Started
 
-This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm).
+This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm) or [yarn](https://yarnpkg.com).
 
 ```bash
-$ npm install @slimio/scheduler
+$ npm i @slimio/scheduler
+# or
+$ yarn add @slimio/scheduler
 ```
 
 ## Usage example
@@ -19,17 +21,18 @@ Scheduler are often use with SlimIO Addon(s) and are not designed to be used out
 const Addon = require("@slimio/addon");
 const Scheduler = require("@slimio/scheduler");
 
+// Create your Addon
 const myAddon = new Addon("myAddon");
 
-// Declare our sayHello function
+// Create a sayHello function (our callback).
 async function sayHello() {
     console.log("hello world!");
 }
 
-// Register "sayHello" and ask it to be executed every one second
+// Register "sayHello" callback and ask to schedule it every second (so it will be executed every second by Addon).
 myAddon
-    .registerCallback(sayHello)
-    .schedule("sayHello", new Scheduler({ interval: 1 }));
+    .registerCallback("say_hello", sayHello)
+    .schedule(new Scheduler({ interval: 1 }));
 
 module.exports = myAddon;
 ```
