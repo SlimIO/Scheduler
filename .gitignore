@@ -59,3 +59,4 @@ typings/
 
 # Ignore jsdoc
 docs/
+jsdoc/
