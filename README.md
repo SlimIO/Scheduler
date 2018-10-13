@@ -68,17 +68,25 @@ interface AvailableTypes {
 ```
 
 ### reset(): void
-Reset the Scheduler (it will reset inner date timer). This method is automatically called by the `walk()` method.
+Reset the Scheduler (it will reset inner timestamp). This method is automatically called by the `walk()` method.
 
 ### walk(): boolean
 Walk the Scheduler. It will return `false` if the time is not elapsed and `true` if the time has been elapsed. When true is returned, the timer is automatically resetted !
 
 <p align="center">
+    <b>Workflow of walk() method</b>
     <img src="https://i.imgur.com/vnbqS3e.png" height="500">
 </p>
 
 ### Available Types
-Scheduler support both `second` and `millisecond` types. It's recommanded to set these at the construction time.
+Scheduler support both `Seconds` and `Milliseconds` types.
+```ts
+interface AvailableTypes {
+    Milliseconds: "millisecond",
+    Seconds: "second"
+}
+```
+It's recommanded to set the type at the initialization of the Scheduler. (Avoir updating the type on the fly).
 
 ```js
 const timer = new Scheduler({
@@ -86,7 +94,5 @@ const timer = new Scheduler({
     intervalUnitType: Scheduler.Types.Milliseconds
 });
 
-// [OR] Change type with the getter
-// But that can be dangerous to change the nature of an existant timer
 timer.type = Scheduler.Types.Seconds;
 ```
