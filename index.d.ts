@@ -12,7 +12,7 @@ declare class CallbackScheduler {
 	public executeOnStart: boolean;
 	public timer: number;
     public startDate: number;
-    public type: keyof AvailableTypes;
+    public type: keyof CallbackScheduler.AvailableTypes;
 
     // Static properties
     static Types: CallbackScheduler.AvailableTypes;
@@ -31,7 +31,7 @@ declare namespace CallbackScheduler {
     // Constructor interface
     interface ConstructorOptions {
 		interval?: number;
-		startDate?: date;
+		startDate?: Date;
         executeOnStart?: boolean;
         intervalUnitType?: keyof AvailableTypes;
     }
