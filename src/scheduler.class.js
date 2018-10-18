@@ -1,6 +1,3 @@
-// Require Third-party dependencies
-const cloneDeep = require("lodash.clonedeep");
-
 // CONSTANTS & SYMBOLS
 const TYPE = Symbol("TYPE");
 const AVAILABLE_TYPES = new Map([
@@ -39,8 +36,8 @@ class CallbackScheduler {
      *     interval: 1000
      * });
      */
-    constructor(options = CallbackScheduler.DefaultConstructorOptions) {
-        const args = Object.assign(cloneDeep(CallbackScheduler.DefaultConstructorOptions), options);
+    constructor(options = Object.create(null)) {
+        const args = Object.assign(Object.create(CallbackScheduler.DefaultConstructorOptions), options);
         if (typeof args.interval !== "number") {
             throw new TypeError("CallbackScheduler.options.interval should be typeof <number>");
         }
