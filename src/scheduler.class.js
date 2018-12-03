@@ -20,7 +20,6 @@ const AVAILABLE_TYPES = new Map([
  * @author GENTILHOMME Thomas
  */
 class CallbackScheduler {
-
     /**
      * @constructor
      * @param {Object} [options={}] Scheduler Options
@@ -149,7 +148,6 @@ class CallbackScheduler {
 
         return true;
     }
-
 }
 
 /**
