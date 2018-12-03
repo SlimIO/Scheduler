@@ -22,6 +22,7 @@ const AVAILABLE_TYPES = new Map([
 class CallbackScheduler {
     /**
      * @constructor
+     * @memberof CallbackScheduler#
      * @param {Object} [options={}] Scheduler Options
      * @param {Number} [options.interval=36000] Scheduler interval in second!
      * @param {Date} options.startDate Scheduler start date (default equal to now())
