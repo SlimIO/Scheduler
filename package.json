@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test",
+      "pre-push": "cross-env npm test && eslint src/scheduler.class.js",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -50,6 +50,7 @@
     "@slimio/eslint-config": "^2.0.3",
     "@slimio/is": "^1.4.0",
     "ava": "^0.25.0",
+    "cross-env": "^5.2.0",
     "driftless": "^2.0.3",
     "eslint": "^5.9.0",
     "husky": "^1.2.0",
