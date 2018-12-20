@@ -25,24 +25,21 @@ avaTest("CallbackScheduler - default static constructor options values", (test) 
 });
 
 avaTest("CallbackScheduler - constructor.options.interval should be typeof <number>", (test) => {
-    const error = test.throws(() => {
+    test.throws(() => {
         new CallbackScheduler({ interval: "5" });
-    }, TypeError);
-    test.is(error.message, "CallbackScheduler.options.interval should be typeof <number>");
+    }, { instanceOf: TypeError, message: "CallbackScheduler.options.interval should be typeof <number>" });
 });
 
 avaTest("CallbackScheduler - constructor.options.executeOnStart should be a <boolean>", (test) => {
-    const error = test.throws(() => {
+    test.throws(() => {
         new CallbackScheduler({ executeOnStart: 50 });
-    }, TypeError);
-    test.is(error.message, "CallbackScheduler.options.executeOnStart should be a <boolean>");
+    }, { instanceOf: TypeError, message: "CallbackScheduler.options.executeOnStart should be a <boolean>" });
 });
 
 avaTest("CallbackScheduler - constructor.intervalUnitType should be typeof <string>", (test) => {
-    const error = test.throws(() => {
+    test.throws(() => {
         new CallbackScheduler({ intervalUnitType: 5 });
-    }, TypeError);
-    test.is(error.message, "CallbackScheduler.options.intervalUnitType should be typeof <string>");
+    }, { instanceOf: TypeError, message: "CallbackScheduler.options.intervalUnitType should be typeof <string>" });
 });
 
 avaTest("CallbackScheduler - default constructor values", (test) => {
@@ -126,10 +123,9 @@ avaTest("CallbackScheduler - execute walk method in milliseconds", async(test) =
     });
 
     // Check type error
-    const typeError = test.throws(() => {
+    test.throws(() => {
         Scheduler.type = "mdr";
-    }, TypeError);
-    test.is(typeError.message, "Unknown TYPE value mdr !");
+    }, { instanceOf: TypeError, message: "Unknown TYPE value mdr !" });
 
     test.true(is.nullOrUndefined(Scheduler.timer));
     test.false(Scheduler.started);
