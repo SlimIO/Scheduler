@@ -7,6 +7,9 @@ Scheduler class are used by SlimIO Addons to schedule the execution of registere
 
 > *warning* Scheduler class are not designed to be precision timer (they are not a replacement of Node.JS timers!).
 
+## Requirements
+- Node.js v10 or higher
+
 ## Getting Started
 
 This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm) or [yarn](https://yarnpkg.com).
