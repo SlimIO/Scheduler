@@ -46,7 +46,9 @@ module.exports = myAddon;
 
 ## API
 
-### constructor(options?: CallbackScheduler.ConstructorOptions)
+<details><summary>constructor(options?: CallbackScheduler.ConstructorOptions)</summary>
+<br />
+
 Construct a new Scheduler.
 
 ```js
@@ -73,22 +75,31 @@ interface AvailableTypes {
     Seconds: "second"
 }
 ```
+</details>
 
-### reset(): void
+<details><summary>reset(): void</summary>
+<br />
+
 Reset the Scheduler (it will reset inner timestamp). This method is automatically called by the `walk()` method.
+</details>
 
-### walk(): boolean
+<details><summary>walk(): boolean</summary>
+<br />
+
 Walk the Scheduler. It will return `false` if the time is not elapsed and `true` if the time has been elapsed. When true is returned, the timer is automatically resetted !
 
 <p align="center">
     <b>Workflow of walk() method</b>
     <img src="https://i.imgur.com/vnbqS3e.png" height="500">
 </p>
+</details>
 
-### Available Types
+<details><summary>Available Types</summary>
+<br />
+
 Scheduler support both `Seconds` and `Milliseconds` types.
 ```ts
-interface AvailableTypes {
+interface Types {
     Milliseconds: "millisecond",
     Seconds: "second"
 }
@@ -103,6 +114,7 @@ const timer = new Scheduler({
 
 timer.type = Scheduler.Types.Seconds;
 ```
+</details>
 
 ## License
 MIT
