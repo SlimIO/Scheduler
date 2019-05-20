@@ -5,7 +5,12 @@
 
 Scheduler class are used by SlimIO Addons to schedule the execution of registered callbacks.
 
-> *warning* Scheduler class are not designed to be precision timer (they are not a replacement of Node.JS timers!).
+> ⚠️ Scheduler class are not designed to be precision timer (they are not a replacement of Node.js timers!).
+
+<p align="center">
+    <img src="https://i.imgur.com/zOtJcDm.png">
+</p>
+
 
 ## Requirements
 - Node.js v10 or higher
@@ -22,7 +27,7 @@ $ yarn add @slimio/scheduler
 
 ## Usage example
 
-Scheduler are often use with SlimIO Addon(s) and are not designed to be used out of the Slim.IO product.
+Scheduler are often use with SlimIO Addon(s) and are not designed to be used out of the SlimIO agent.
 
 ```js
 const Addon = require("@slimio/addon");
@@ -90,6 +95,8 @@ Walk the Scheduler. It will return `false` if the time is not elapsed and `true`
 
 <p align="center">
     <b>Workflow of walk() method</b>
+</p>
+<p align="center">
     <img src="https://i.imgur.com/vnbqS3e.png" height="500">
 </p>
 </details>
