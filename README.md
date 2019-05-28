@@ -123,5 +123,8 @@ timer.type = Scheduler.Types.Seconds;
 ```
 </details>
 
+## Dependencies
+This project have no dependencies.
+
 ## License
 MIT
