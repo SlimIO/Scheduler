@@ -59,7 +59,7 @@ Construct a new Scheduler.
 ```js
 const myScheduler = new Scheduler({
     interval: 1250,
-    intervalUnitType: Scheduler.Types.milliseconds
+    intervalUnitType: Scheduler.Types.Milliseconds
 });
 ```
 
