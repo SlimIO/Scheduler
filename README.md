@@ -16,7 +16,7 @@ Scheduler class are used by SlimIO Addons to schedule the execution of registere
 
 
 ## Requirements
-- Node.js v10 or higher
+- [Node.js](https://nodejs.org/en/) v10 or higher
 
 ## Getting Started
 
@@ -29,7 +29,6 @@ $ yarn add @slimio/scheduler
 ```
 
 ## Usage example
-
 Scheduler are often use with SlimIO Addon(s) and are not designed to be used out of the SlimIO agent.
 
 ```js
