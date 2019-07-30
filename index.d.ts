@@ -1,8 +1,4 @@
-/**
- * CallbackScheduler class definition
- */
 declare class CallbackScheduler {
-    // Constructor
     constructor(options?: CallbackScheduler.ConstructorOptions);
 
     // Properties
@@ -23,12 +19,7 @@ declare class CallbackScheduler {
 	public walk(): boolean;
 }
 
-/**
- * CallbackScheduler namespace
- */
 declare namespace CallbackScheduler {
-
-    // Constructor interface
     interface ConstructorOptions {
 		interval?: number;
 		startDate?: Date;
@@ -40,7 +31,6 @@ declare namespace CallbackScheduler {
         Milliseconds: "millisecond",
         Seconds: "second"
     }
-
 }
 
 export as namespace CallbackScheduler;
