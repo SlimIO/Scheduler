@@ -1,4 +1,4 @@
-/* eslint no-new: off */
+"use strict";
 
 // Require Third-party Dependencies
 const avaTest = require("ava");

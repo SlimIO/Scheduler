@@ -1,33 +1,21 @@
-// CONSTANTS & SYMBOLS
+"use strict";
+
+// CONSTANTS
 const TYPE = Symbol("TYPE");
 const AVAILABLE_TYPES = new Map([
     ["millisecond", 0],
     ["second", 1]
 ]);
 
-/**
- * @class CallbackScheduler
- * @classdesc Used to schedule callback(s) execution in Addon
- *
- * @property {Number} interval
- * @property {Boolean} started
- * @property {Boolean} executeOnStart
- * @property {Boolean} hasBeenResetAfterStartDate
- * @property {Number} timer
- * @property {Number} startDate
- * @property {String} type
- *
- * @author GENTILHOMME Thomas
- */
 class CallbackScheduler {
     /**
-     * @constructor
+     * @class CallbackScheduler
      * @memberof CallbackScheduler#
-     * @param {Object} [options={}] Scheduler Options
-     * @param {Number} [options.interval=36000] Scheduler interval in second!
+     * @param {object} [options={}] Scheduler Options
+     * @param {number} [options.interval=36000] Scheduler interval in second!
      * @param {Date} options.startDate Scheduler start date (default equal to now())
-     * @param {Boolean} [options.executeOnStart=false] Enable walk on the first run
-     * @param {String} [options.intervalUnitType="second"] Default Scheduler Type
+     * @param {boolean} [options.executeOnStart=false] Enable walk on the first run
+     * @param {string} [options.intervalUnitType="second"] Default Scheduler Type
      *
      * @throws {TypeError}
      *
@@ -67,8 +55,8 @@ class CallbackScheduler {
     /**
      * @public
      * @memberof CallbackScheduler#
-     * @param {!String} value value
-     * @return {void}
+     * @param {!string} value value
+     * @returns {void}
      */
     set type(value) {
         if (!AVAILABLE_TYPES.has(value)) {
@@ -79,8 +67,8 @@ class CallbackScheduler {
 
     /**
      * @public
-     * @method reset
-     * @desc Reset scheduler to delta 0 (automatically called if walk match)
+     * @function reset
+     * @description Reset scheduler to delta 0 (automatically called if walk match)
      * @memberof CallbackScheduler#
      * @returns {void}
      *
@@ -99,10 +87,10 @@ class CallbackScheduler {
 
     /**
      * @public
-     * @method walk
-     * @desc Increment the schedule (timer). It's what we call a 'walk'
+     * @function walk
+     * @description Increment the schedule (timer). It's what we call a 'walk'
      * @memberof CallbackScheduler#
-     * @returns {Boolean}
+     * @returns {boolean}
      *
      * @version 0.0.0
      *
@@ -154,9 +142,9 @@ class CallbackScheduler {
 /**
  * @static
  * @memberof CallbackScheduler#Types
- * @desc Available types
- * @property {Number} Milliseconds
- * @property {Number} Seconds
+ * @description Available types
+ * @property {number} Milliseconds
+ * @property {number} Seconds
  */
 CallbackScheduler.Types = {
     Milliseconds: "millisecond",
@@ -166,11 +154,11 @@ CallbackScheduler.Types = {
 /**
  * @static
  * @memberof CallbackScheduler#DefaultConstructorOptions
- * @desc Default options for CallbackScheduler constructor
- * @property {Number} interval
+ * @description Default options for CallbackScheduler constructor
+ * @property {number} interval
  * @property {Date} startDate
- * @property {Boolean} executeOnStart
- * @property {String} defaultType
+ * @property {boolean} executeOnStart
+ * @property {string} defaultType
  */
 CallbackScheduler.DefaultConstructorOptions = {
     interval: 36000,
