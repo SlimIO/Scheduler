@@ -13,6 +13,11 @@
     "coverage": "nyc npm test",
     "report": "nyc report --reporter=html"
   },
+  "files": [
+    "index.d.ts",
+    "index.js",
+    "src/scheduler.class.js"
+  ],
   "husky": {
     "hooks": {
       "pre-push": "cross-env npm test && eslint src/scheduler.class.js",
