@@ -1,7 +1,10 @@
 # Scheduler
-![V0.6.0](https://img.shields.io/badge/version-0.6.0-blue.svg)
+![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/SlimIO/Scheduler/master/package.json&query=$.version&label=Version)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SlimIO/is/commit-activity)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
+![dep](https://img.shields.io/david/SlimIO/Scheduler)
+![size](https://img.shields.io/github/languages/code-size/SlimIO/Scheduler)
+[![Known Vulnerabilities](https://snyk.io//test/github/SlimIO/Scheduler/badge.svg?targetFile=package.json)](https://snyk.io//test/github/SlimIO/Scheduler?targetFile=package.json)
 
 Scheduler class are used by SlimIO Addons to schedule the execution of registered callbacks.
 
