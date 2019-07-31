@@ -1,5 +1,6 @@
 declare class CallbackScheduler {
     constructor(options?: CallbackScheduler.ConstructorOptions);
+    static isScheduler(obj: any): boolean;
 
     // Properties
 	public interval: number;

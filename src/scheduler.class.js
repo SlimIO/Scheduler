@@ -1,6 +1,7 @@
 "use strict";
 
 // CONSTANTS
+const SchedulerSym = Symbol.for("Scheduler");
 const TYPE = Symbol("TYPE");
 const AVAILABLE_TYPES = new Map([
     ["millisecond", 0],
@@ -50,6 +51,11 @@ class CallbackScheduler {
         this.started = false;
         this.timer = null;
         this.type = args.intervalUnitType;
+        this[SchedulerSym] = true;
+    }
+
+    static isScheduler(obj) {
+        return obj && Boolean(obj[SchedulerSym]);
     }
 
     /**
