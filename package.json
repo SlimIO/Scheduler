@@ -1,6 +1,6 @@
 {
   "name": "@slimio/scheduler",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Slim.IO - Addon callbacks scheduler",
   "main": "index.js",
   "engines": {
