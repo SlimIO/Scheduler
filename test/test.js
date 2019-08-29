@@ -24,6 +24,21 @@ avaTest("CallbackScheduler - default static constructor options values", (test) 
     test.is(CallbackScheduler.DefaultConstructorOptions.intervalUnitType, CallbackScheduler.Types.Seconds);
 });
 
+avaTest("CallbackScheduler - dateAtHours should give a date object with 11 hours", (test) => {
+    const date = CallbackScheduler.dateAtHours(11, 1, 1);
+
+    test.is(date.getHours(), 11);
+    test.is(date.getMinutes(), 1);
+    test.is(date.getSeconds(), 1);
+});
+
+avaTest("CallbackScheduler - dateAtHours should give a date object with 11 hours and default values", (test) => {
+    const date = CallbackScheduler.dateAtHours(11)
+
+    test.is(date.getHours(), 11);
+    test.is(date.getMinutes(), 0);
+})
+
 avaTest("CallbackScheduler - constructor.options.interval should be typeof <number>", (test) => {
     test.throws(() => {
         new CallbackScheduler({ interval: "5" });

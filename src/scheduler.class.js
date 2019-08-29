@@ -59,6 +59,19 @@ class CallbackScheduler {
     }
 
     /**
+     * @param {number} hours The number of hours to set in the new date
+     * @param {number} minutes The number of minutes to set in the new date
+     * @param {number} seconds The number of seconds to set in the new date
+     * @returns {Date} the new date with a good number of hours, minutes and seconds
+     */
+    static dateAtHours(hours = 0, minutes = 0, seconds = 0) {
+        const date = new Date();
+        date.setHours(hours, minutes, seconds, 0);
+
+        return date;
+    }
+
+    /**
      * @public
      * @memberof CallbackScheduler#
      * @param {!string} value value

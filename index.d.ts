@@ -2,6 +2,8 @@ declare class CallbackScheduler {
     constructor(options?: CallbackScheduler.ConstructorOptions);
     static isScheduler(obj: any): boolean;
 
+    static dateAtHours(hours?: number, minutes?: number, seconds?: number): Date;
+
     // Properties
 	public interval: number;
 	public started: boolean;
