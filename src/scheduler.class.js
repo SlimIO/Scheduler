@@ -59,6 +59,17 @@ class CallbackScheduler {
     }
 
     /**
+     * @function dateAtHours
+     * @static
+     * @description Create a Date object with hours, minutes, seconds option.
+     *
+     * @example
+     * const a = Scheduler.dateAtHours(10, 1, 1);
+     * console.log(a.toString()); //Will print your date with 10 hours, 1 minutes, 1 secondes, 0 milliseconds
+     *
+     * const b = Scheduler.dateAtHours(10);
+     * console.log(b.toString()); //Will print your date with 10 hours, 0 minutes, 0 secondes, 0 milliseconds
+     *
      * @param {number} hours The number of hours to set in the new date
      * @param {number} minutes The number of minutes to set in the new date
      * @param {number} seconds The number of seconds to set in the new date
