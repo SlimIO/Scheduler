@@ -70,9 +70,9 @@ class CallbackScheduler {
      * const b = Scheduler.dateAtHours(10);
      * console.log(b.toString()); //Will print your date with 10 hours, 0 minutes, 0 secondes, 0 milliseconds
      *
-     * @param {number} hours The number of hours to set in the new date
-     * @param {number} minutes The number of minutes to set in the new date
-     * @param {number} seconds The number of seconds to set in the new date
+     * @param {number} [hours=0] The number of hours to set in the new date
+     * @param {number} [minutes=0] The number of minutes to set in the new date
+     * @param {number} [seconds=0] The number of seconds to set in the new date
      * @returns {Date} the new date with a good number of hours, minutes and seconds
      */
     static dateAtHours(hours = 0, minutes = 0, seconds = 0) {
