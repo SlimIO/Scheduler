@@ -30,13 +30,20 @@ avaTest("CallbackScheduler - dateAtHours should give a date object with 11 hours
     test.is(date.getHours(), 11);
     test.is(date.getMinutes(), 1);
     test.is(date.getSeconds(), 1);
+    test.is(date.getMilliseconds(), 0);
+
+    const replicate = new Date();
+    replicate.setHours(11, 1, 1, 0);
+    test.is(date.toString(), replicate.toString());
 });
 
-avaTest("CallbackScheduler - dateAtHours should give a date object with 11 hours and default values", (test) => {
-    const date = CallbackScheduler.dateAtHours(11)
+avaTest("CallbackScheduler - dateAtHours should give a date object with default values", (test) => {
+    const date = CallbackScheduler.dateAtHours()
 
-    test.is(date.getHours(), 11);
+    test.is(date.getHours(), 0);
     test.is(date.getMinutes(), 0);
+    test.is(date.getSeconds(), 0);
+    test.is(date.getMilliseconds(), 0);
 })
 
 avaTest("CallbackScheduler - constructor.options.interval should be typeof <number>", (test) => {
