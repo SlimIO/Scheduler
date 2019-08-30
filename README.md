@@ -46,7 +46,7 @@ async function sayHello() {
 // Register "sayHello" callback and ask to schedule it every second (so it will be executed every second by Addon).
 myAddon
     .registerCallback("say_hello", sayHello)
-    .schedule(new Scheduler({ interval: 1 }));
+    .schedule(new Scheduler({ interval: 1, startDate: Scheduler.dateAtHours(24, 0, 0) }));
 
 module.exports = myAddon;
 ```
@@ -82,6 +82,22 @@ interface AvailableTypes {
     Seconds: "second"
 }
 ```
+</details>
+
+<details>
+    <summary>dateAtHours(hours?: number, minutes?: number, seconds?: number): Date</summary>
+    <br>
+
+    Create a "Date" Object with some hours, minutes and seconds.
+    This object will be return by this static function.
+
+```js
+    const Scheduler = require("@slimio/scheduler");
+
+    const a = Scheduler.dateAtHours(10, 1, 1);
+    console.log(a.toString()); //Print a date with 10 hours, 1 minutes, 1 seconds
+```
+
 </details>
 
 <details><summary>reset(): void</summary>
