@@ -91,18 +91,20 @@ interface AvailableTypes {
 ```
 </details>
 
-<details>
-    <summary>dateAtHours(hours?: number, minutes?: number, seconds?: number): Date</summary>
-    <br>
+<details><summary>dateAtHours(hours?: number, minutes?: number, seconds?: number): Date</summary>
+<br />
 
-    Create a "Date" Object with some hours, minutes and seconds.
-    This object will be return by this static function.
+Create a "Date" Object with some given **hours**, **minutes** and **seconds**. By default all of these are assigned to `0`.
 
 ```js
-    const Scheduler = require("@slimio/scheduler");
+const Scheduler = require("@slimio/scheduler");
 
-    const a = Scheduler.dateAtHours(10, 1, 1);
-    console.log(a.toString()); //Print a date with 10 hours, 1 minutes, 1 seconds
+const myDate = Scheduler.dateAtHours(10, 1, 1);
+console.log(myDate.toString()); // stdout myDate with 10 hours, 1 minutes, 1 seconds and 0 milliseconds
+
+// Same as
+const myJSDate = new Date();
+myJSDate.setHours(10, 1, 1, 0);
 ```
 
 </details>
