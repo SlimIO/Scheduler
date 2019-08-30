@@ -43,10 +43,17 @@ async function sayHello() {
     console.log("hello world!");
 }
 
+async function midnightJob() {
+    console.log("executing at midnight!");
+}
+
 // Register "sayHello" callback and ask to schedule it every second (so it will be executed every second by Addon).
-myAddon
-    .registerCallback("say_hello", sayHello)
-    .schedule(new Scheduler({ interval: 1, startDate: Scheduler.dateAtHours(24, 0, 0) }));
+myAddon.registerCallback(sayHello)
+    .schedule(new Scheduler({ interval: 1 }));
+
+// Register "midnightJob" callback and schedule it every 24 hours at midnight
+myAddon.registerCallback(midnightJob)
+    .schedule(new Scheduler({ interval: 86_400, startDate: Scheduler.dateAtHours(24) }));
 
 module.exports = myAddon;
 ```
