@@ -55,7 +55,7 @@
     "@slimio/eslint-config": "^3.0.3",
     "@slimio/is": "^1.5.0",
     "ava": "^2.3.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^6.0.0",
     "driftless": "^2.0.3",
     "eslint": "^6.2.2",
     "husky": "^3.0.4",
