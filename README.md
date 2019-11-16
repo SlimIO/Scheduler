@@ -18,7 +18,7 @@ Scheduler class are used by SlimIO Addons to schedule the execution of registere
 
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) v10 or higher
+- [Node.js](https://nodejs.org/en/) v12 or higher
 
 ## Getting Started
 
