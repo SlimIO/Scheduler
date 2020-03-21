@@ -33,8 +33,8 @@ $ yarn add @slimio/scheduler
 Scheduler are often use with SlimIO Addon(s) and are not designed to be used out of the SlimIO agent.
 
 ```js
-const Addon = require("@slimio/addon");
-const Scheduler = require("@slimio/scheduler");
+import Addon from "@slimio/addon";
+import Scheduler from "@slimio/scheduler";
 
 // Create your Addon
 const myAddon = new Addon("myAddon");
@@ -56,7 +56,7 @@ myAddon.registerCallback(sayHello)
 myAddon.registerCallback(midnightJob)
     .schedule(new Scheduler({ interval: 86_400, startDate: Scheduler.dateAtHours(24) }));
 
-module.exports = myAddon;
+export default myAddon;
 ```
 
 ## API
